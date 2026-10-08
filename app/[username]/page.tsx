@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export default async function ProfilePage({ params }: { params: { username: string } }) {
-  const username = params.username.toLowerCase().trim()
+export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
+  const { username: rawUsername } = await params
+  const username = rawUsername.toLowerCase().trim()
   const supabase = createClient()
 
   const { data: profile } = await supabase
