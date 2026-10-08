@@ -43,9 +43,15 @@ export default function RegisterPage() {
       password,
     })
 
-    if (signUpError || !data.user) {
+    if (signUpError) {
       setLoading(false)
-      setError('Erro ao criar conta. Tente outro e-mail.')
+      setError(signUpError.message)
+      return
+    }
+
+    if (!data.user) {
+      setLoading(false)
+      setError('Confirme seu e-mail antes de continuar.')
       return
     }
 
@@ -60,7 +66,7 @@ export default function RegisterPage() {
       if (profileError.code === '23505') {
         setError('Esse nome de usuário já está em uso.')
       } else {
-        setError('Erro ao salvar perfil. Tente novamente.')
+        setError(`Erro ao salvar perfil: ${profileError.message}`)
       }
       return
     }
