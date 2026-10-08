@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const { username: rawUsername } = await params
   const username = rawUsername.toLowerCase().trim()
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data: profile } = await supabase
     .from('profiles')
